@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @Remark 有问题直接联系我，源码-笔记-技术交流群
  * @Version 1.0
  **/
-@Service
+//@Service
 public class RedisResultSenderServiceImpl implements ResultSenderService {
     @Override
     public void sendResult(CaseInfoDTO caseInfoDTO, TestTypeEnum testTypeEnum, String result) {

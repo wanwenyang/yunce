@@ -21,7 +21,18 @@ public enum BizCodeEnum {
     STRESS_CASE_ID_NOT_EXIST(260002,"压测用例id不存在"),
     STRESS_UNSUPPORTED(260005,"不支持的压测类型"),
     STRESS_ASSERTION_UNSUPPORTED_ACTION(260007, "不支持的断言动作"),
-    STRESS_ASSERTION_UNSUPPORTED_FROM(260008, "不支持的断言来源");
+    STRESS_ASSERTION_UNSUPPORTED_FROM(260008, "不支持的断言来源"),
+
+    /**
+     * API操作
+     */
+    API_OPERATION_UNSUPPORTED_FROM(230004, "不支持的来源操作"),
+    API_OPERATION_UNSUPPORTED_ASSERTION(230005, "不支持的断言操作"),
+    API_OPERATION_UNSUPPORTED_RELATION(230006, "不支持的关联取值"),
+    API_RELATION_NOT_EXIST(230007, "关联参数不存在"),
+    API_ASSERTION_FAILED(230008, "API断言失败"),
+    API_FILE_NOT_EXIST(230010, "API上传文件不存在"),
+    API_CASE_STEP_IS_EMPTY(280404,"API用例步骤不存在" );
 
     @Getter
     private String message;

@@ -47,7 +47,8 @@ public class StressCaseController {
 
     @GetMapping("/execute")
     public JsonData execute(@RequestParam("projectId") Long projectId,@RequestParam("id") Long caseId){
-        return JsonData.buildSuccess(stressCaseService.execute(projectId,caseId));
+        stressCaseService.execute(projectId,caseId);
+        return JsonData.buildSuccess();
     }
 
 }

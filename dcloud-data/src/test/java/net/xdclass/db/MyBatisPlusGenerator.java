@@ -30,7 +30,8 @@ public class MyBatisPlusGenerator {
         String targetModuleNamePath = "/dcloud-data";
         String dbName = "test_data";
         String[] tables = {
-                "report", "report_detail_stress"
+                //"report", "report_detail_stress"
+                "report_detail_api"
         };
 
         // 数据源配置

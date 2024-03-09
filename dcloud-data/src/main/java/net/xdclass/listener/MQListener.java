@@ -47,6 +47,26 @@ public class MQListener {
         ack.acknowledge();
     }
 
+
+
+    /**
+     * 消费监听，接口自动化测试日志详情
+     * @param record
+     * @param ack
+     * @param topic
+     */
+    @KafkaListener(topics = {KafkaTopicConfig.API_TOPIC_NAME},groupId = "xdclass-api-test-gp")
+    public void onApiReportDetailMessage(ConsumerRecord<?,?> record, Acknowledgment ack, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic){
+        //打印消息
+        log.info("消费主题：{},分区：{} 收到消息：{}",record.topic(),record.partition(),record.value());
+        reportDetailService.handleApiReportDetail(record.value().toString());
+        ack.acknowledge();
+    }
+
+
+
+
+
     /**
      * 消费监听，处理报告的状态
      * @param record

@@ -10,7 +10,9 @@ import net.xdclass.enums.StressSourceTypeEnum;
 import net.xdclass.enums.TestTypeEnum;
 import net.xdclass.exception.BizException;
 import net.xdclass.feign.ReportFeignService;
+import net.xdclass.mapper.EnvironmentMapper;
 import net.xdclass.mapper.StressCaseMapper;
+import net.xdclass.model.EnvironmentDO;
 import net.xdclass.model.StressCaseDO;
 import net.xdclass.req.ReportSaveReq;
 import net.xdclass.req.stress.StressCaseSaveReq;
@@ -18,9 +20,11 @@ import net.xdclass.req.stress.StressCaseUpdateReq;
 import net.xdclass.service.stress.StressCaseService;
 import net.xdclass.service.stress.core.BaseStressEngine;
 import net.xdclass.service.stress.core.StressJmxEngine;
+import net.xdclass.service.stress.core.StressSimpleEngine;
 import net.xdclass.util.JsonData;
 import net.xdclass.util.SpringBeanUtil;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -43,6 +47,10 @@ public class StressCaseServiceImpl implements StressCaseService {
 
     @Resource
     private ApplicationContext applicationContext;
+
+
+    @Resource
+    private EnvironmentMapper environmentMapper;
 
     @Override
     public StressCaseDTO findById(Long projectId, Long caseId) {
@@ -89,7 +97,8 @@ public class StressCaseServiceImpl implements StressCaseService {
      * 【9】通知压测结束
      */
     @Override
-    public int execute(Long projectId, Long caseId) {
+    @Async("testExecutor")
+    public void execute(Long projectId, Long caseId) {
         LambdaQueryWrapper<StressCaseDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StressCaseDO::getProjectId, projectId)
                 .eq(StressCaseDO::getId, caseId);
@@ -120,7 +129,7 @@ public class StressCaseServiceImpl implements StressCaseService {
                 }
             }
         }
-        return 0;
+
     }
 
     private void runJmxStressCase(StressCaseDO stressCaseDO, ReportDTO reportDTO) {
@@ -134,6 +143,11 @@ public class StressCaseServiceImpl implements StressCaseService {
 
     private void runSimpleStressCase(StressCaseDO stressCaseDO, ReportDTO reportDTO) {
 
+        EnvironmentDO environmentDO = environmentMapper.selectById(stressCaseDO.getEnvironmentId());
+        //创建引擎
+        BaseStressEngine stressEngine = new StressSimpleEngine(environmentDO,stressCaseDO,reportDTO,applicationContext);
 
+        //运行压测
+        stressEngine.startStressTest();
     }
 }

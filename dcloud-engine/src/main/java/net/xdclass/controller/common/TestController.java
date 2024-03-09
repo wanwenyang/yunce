@@ -9,17 +9,97 @@ package net.xdclass.controller.common;
  * @Version 1.0
  **/
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.xdclass.util.JsonData;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Controller
 public class TestController {
+
+
+    private static Set<String> TOKNE_SET = new HashSet<>();
+
+    @GetMapping("/api/v2/test/detail")
+    @ResponseBody
+    public JsonData detail(Long id) {
+        return JsonData.buildSuccess("传入id=" + id);
+    }
+
+    /**
+     * form表单登录，生成令牌
+     *
+     * @param mail
+     * @param pwd
+     * @return
+     */
+    @PostMapping("/api/v2/test/login_form")
+    @ResponseBody
+    public JsonData loginApi(String mail, String pwd) {
+
+        if ("xdclass".equals(mail) && "123456".equals(pwd)) {
+            String token = IdUtil.simpleUUID();
+            TOKNE_SET.add(token);
+            return JsonData.buildSuccess(token);
+        }
+        return JsonData.buildError("登录失败，账号密码错误");
+    }
+
+
+    /**
+     * 模拟下单，需要登录token，然后增加订单号
+     *
+     * @param map
+     * @param request
+     * @return
+     */
+    @PostMapping("/api/v2/test/buy")
+    @ResponseBody
+    public JsonData buy(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+        String token = request.getHeader("token");
+        if (TOKNE_SET.contains(token)) {
+            map.put("order_id", IdUtil.simpleUUID());
+            return JsonData.buildSuccess(map);
+        } else {
+            return JsonData.buildError("请登录，再下单");
+        }
+    }
+
+
+    /**
+     * 模拟文件上传
+     *
+     * @param file
+     * @return
+     */
+    @PostMapping("/api/v2/test/upload")
+    @ResponseBody
+    public JsonData upload(@RequestParam("file") MultipartFile file) {
+        if (file != null) {
+            String originalFilename = file.getOriginalFilename();
+            String contentType = file.getContentType();
+            Map<String, String> map = new HashMap<>();
+            map.put("originalFilename", originalFilename);
+            map.put("contentType", contentType);
+            return JsonData.buildSuccess(map);
+        } else {
+            return JsonData.buildError("上传文件失败,文件为空");
+        }
+    }
+
+
+    //======================================================================
+
 
 
     /**

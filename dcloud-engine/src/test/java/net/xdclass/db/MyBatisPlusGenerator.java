@@ -29,9 +29,13 @@ public class MyBatisPlusGenerator {
         String serverInfo = "120.79.56.211:3306";
         String targetModuleNamePath = "/dcloud-engine";
         String dbName = "test_engine";
+//        String[] tables = {
+//                "project", "environment",
+//                "stress_case_module", "stress_case"
+//        };
         String[] tables = {
-                "project", "environment",
-                "stress_case_module", "stress_case"
+                "api", "api_case",
+                "api_case_module", "api_case_step","api_module"
         };
 
         // 数据源配置

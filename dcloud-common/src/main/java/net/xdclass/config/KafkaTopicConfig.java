@@ -13,12 +13,12 @@ public class KafkaTopicConfig {
     /**
      * 压测
      */
-    public static final String STRESS_TOPIC_NAME = "stress_report_topic";
+    public static final String STRESS_TOPIC_NAME = "stress_report_topic1";
 
     /**
      * 接口自动化
      */
-    public static final String API_TOPIC_NAME = "api_report_topic";
+    public static final String API_TOPIC_NAME = "api_report_topic2";
 
     /**
      * ui自动化
