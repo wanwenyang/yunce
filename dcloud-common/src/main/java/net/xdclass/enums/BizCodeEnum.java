@@ -32,7 +32,10 @@ public enum BizCodeEnum {
     API_RELATION_NOT_EXIST(230007, "关联参数不存在"),
     API_ASSERTION_FAILED(230008, "API断言失败"),
     API_FILE_NOT_EXIST(230010, "API上传文件不存在"),
-    API_CASE_STEP_IS_EMPTY(280404,"API用例步骤不存在" );
+    API_CASE_STEP_IS_EMPTY(280404,"API用例步骤不存在" ),
+
+    UI_UNSUPPORTED_BROWSER_DRIVER(401000, "暂不支持该浏览器"),
+    UI_ELEMENT_NOT_EXIST(401404,"元素定位不存在" );
 
     @Getter
     private String message;

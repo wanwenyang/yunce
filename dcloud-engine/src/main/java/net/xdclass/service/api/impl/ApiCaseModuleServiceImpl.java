@@ -7,9 +7,7 @@ import net.xdclass.dto.api.ApiCaseModuleDTO;
 import net.xdclass.mapper.ApiCaseMapper;
 import net.xdclass.mapper.ApiCaseModuleMapper;
 import net.xdclass.mapper.ApiCaseStepMapper;
-import net.xdclass.model.ApiCaseDO;
-import net.xdclass.model.ApiCaseModuleDO;
-import net.xdclass.model.ApiCaseStepDO;
+import net.xdclass.model.*;
 import net.xdclass.req.api.ApiCaseModuleDelReq;
 import net.xdclass.req.api.ApiCaseModuleSaveReq;
 import net.xdclass.req.api.ApiCaseModuleUpdateReq;
@@ -94,19 +92,27 @@ public class ApiCaseModuleServiceImpl implements ApiCaseModuleService {
 
     @Override
     public int del(ApiCaseModuleDelReq req) {
-        LambdaQueryWrapper<ApiCaseModuleDO> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(ApiCaseModuleDO::getId, req.getId()).eq(ApiCaseModuleDO::getProjectId, req.getProjectId());
+        //删除模块
+        LambdaQueryWrapper<ApiCaseModuleDO> queryWrapper = new LambdaQueryWrapper<>(ApiCaseModuleDO.class);
+        queryWrapper.eq(ApiCaseModuleDO::getProjectId, req.getProjectId()).eq(ApiCaseModuleDO::getId, req.getId());
         int delete = apiCaseModuleMapper.delete(queryWrapper);
 
         //删除模块下的用例
-        LambdaQueryWrapper<ApiCaseDO> apiCaseQueryWrapper = new LambdaQueryWrapper<>();
-        apiCaseQueryWrapper.eq(ApiCaseDO::getModuleId, req.getId()).eq(ApiCaseDO::getProjectId, req.getProjectId());
-        apiCaseMapper.delete(apiCaseQueryWrapper);
+        LambdaQueryWrapper<ApiCaseDO> caseQueryWapper = new LambdaQueryWrapper<>(ApiCaseDO.class);
+        caseQueryWapper.select(ApiCaseDO::getId).eq(ApiCaseDO::getModuleId, req.getId());
+        List<Long> caseIdList = apiCaseMapper.selectList(caseQueryWapper).stream().map(ApiCaseDO::getId).toList();
+        if(!caseIdList.isEmpty()){
+            apiCaseMapper.deleteBatchIds(caseIdList);
+        }
 
-        //删除用例下面的步骤
-        LambdaQueryWrapper<ApiCaseStepDO> apiCaseStepQueryWrapper = new LambdaQueryWrapper<>();
-        apiCaseStepQueryWrapper.eq(ApiCaseStepDO::getCaseId, req.getId()).eq(ApiCaseStepDO::getProjectId, req.getProjectId());
-        apiCaseStepMapper.delete(apiCaseStepQueryWrapper);
+        //删除用例下的步骤
+        LambdaQueryWrapper<ApiCaseStepDO> stepQueryWapper = new LambdaQueryWrapper<>(ApiCaseStepDO.class);
+        stepQueryWapper.select(ApiCaseStepDO::getId).in(ApiCaseStepDO::getCaseId, caseIdList);
+        List<Long> stepIdList = apiCaseStepMapper.selectList(stepQueryWapper).stream().map(ApiCaseStepDO::getId).toList();
+        if(!stepIdList.isEmpty()){
+            apiCaseStepMapper.deleteBatchIds(stepIdList);
+        }
+
 
         return delete;
     }

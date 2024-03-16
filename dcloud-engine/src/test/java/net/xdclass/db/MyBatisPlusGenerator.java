@@ -33,9 +33,14 @@ public class MyBatisPlusGenerator {
 //                "project", "environment",
 //                "stress_case_module", "stress_case"
 //        };
+//        String[] tables = {
+//                "api", "api_case",
+//                "api_case_module", "api_case_step","api_module"
+//        };
+
         String[] tables = {
-                "api", "api_case",
-                "api_case_module", "api_case_step","api_module"
+                "sys_dict", "ui_case_module",
+                "ui_case", "ui_case_step"
         };
 
         // 数据源配置
