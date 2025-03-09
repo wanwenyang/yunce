@@ -17,10 +17,15 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
+<!--        公共-->
         <module>dcloud-common</module>
+<!--        用户-->
         <module>dcloud-account</module>
+<!--        业务模块-->
         <module>dcloud-engine</module>
+<!--        数据-->
         <module>dcloud-data</module>
+<!--        网关-->
         <module>dcloud-gateway</module>
     </modules>
 

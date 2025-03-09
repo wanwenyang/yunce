@@ -6,12 +6,8 @@ import org.apache.jmeter.util.JMeterUtils;
 import java.io.File;
 
 /**
- * 小滴课堂,愿景：让技术不再难学
- *
- * @Description
- * @Author 二当家小D
- * @Remark 有问题直接联系我，源码-笔记-技术交流群
- * @Version 1.0
+ * StressTestUtil类提供了一些用于执行压力测试的工具方法
+ * 它们可以帮助模拟高负载情况，以评估系统在压力下的表现
  **/
 public class StressTestUtil {
 
@@ -22,8 +18,8 @@ public class StressTestUtil {
     public static String getJmeterHome(){
         //return System.getProperty("jmeter.home");
         try {
-            //String path = StressTestUtil.class.getClassLoader().getResource("jmeter").getPath();
-            String path = "/Users/xdclass/Desktop/jmeter";
+            String path = StressTestUtil.class.getClassLoader().getResource("jmeter").getPath();
+//            String path = "/Users/xdclass/Desktop/jmeter";
             return path;
         }catch (Exception e){
             throw  new RuntimeException(e);

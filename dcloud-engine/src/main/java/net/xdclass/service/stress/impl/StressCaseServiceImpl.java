@@ -28,30 +28,26 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
- * 小滴课堂,愿景：让技术不再难学
  *
- * @Description
- * @Author 二当家小D
- * @Remark 有问题直接联系我，源码-笔记-技术交流群
- * @Version 1.0
  **/
 @Service
 public class StressCaseServiceImpl implements StressCaseService {
 
+    // 注入StressCaseMapper，用于执行压力测试用例相关的数据库操作
     @Resource
     private StressCaseMapper stressCaseMapper;
 
+    // 注入ReportFeignService，用于通过Feign客户端进行报告服务的调用
     @Resource
     private ReportFeignService reportFeignService;
 
-
+    // 注入ApplicationContext，用于获取应用上下文，以便进行组件查找和控制
     @Resource
     private ApplicationContext applicationContext;
 
-
+    // 注入EnvironmentMapper，用于执行环境相关的数据库操作
     @Resource
     private EnvironmentMapper environmentMapper;
-
     @Override
     public StressCaseDTO findById(Long projectId, Long caseId) {
         LambdaQueryWrapper<StressCaseDO> queryWrapper = new LambdaQueryWrapper<>();
@@ -105,7 +101,7 @@ public class StressCaseServiceImpl implements StressCaseService {
         StressCaseDO stressCaseDO = stressCaseMapper.selectOne(queryWrapper);
 
         if (stressCaseDO != null) {
-            //初始化测试报告
+            //初始化测试报告 建造者模式
             ReportSaveReq reportSaveReq = ReportSaveReq.builder().projectId(stressCaseDO.getProjectId())
                     .caseId(stressCaseDO.getId())
                     .startTime(System.currentTimeMillis())
@@ -121,9 +117,7 @@ public class StressCaseServiceImpl implements StressCaseService {
                 if (StressSourceTypeEnum.JMX.name().equalsIgnoreCase(stressCaseDO.getStressSourceType())) {
                     runJmxStressCase(stressCaseDO, reportDTO);
                 } else if (StressSourceTypeEnum.SIMPLE.name().equalsIgnoreCase(stressCaseDO.getStressSourceType())) {
-
                     runSimpleStressCase(stressCaseDO, reportDTO);
-
                 } else {
                     throw new BizException(BizCodeEnum.STRESS_UNSUPPORTED);
                 }
@@ -135,18 +129,14 @@ public class StressCaseServiceImpl implements StressCaseService {
     private void runJmxStressCase(StressCaseDO stressCaseDO, ReportDTO reportDTO) {
         //创建引擎
         BaseStressEngine stressEngine = new StressJmxEngine(stressCaseDO,reportDTO,applicationContext);
-
         //运行压测
         stressEngine.startStressTest();
-
     }
 
     private void runSimpleStressCase(StressCaseDO stressCaseDO, ReportDTO reportDTO) {
-
         EnvironmentDO environmentDO = environmentMapper.selectById(stressCaseDO.getEnvironmentId());
         //创建引擎
         BaseStressEngine stressEngine = new StressSimpleEngine(environmentDO,stressCaseDO,reportDTO,applicationContext);
-
         //运行压测
         stressEngine.startStressTest();
     }

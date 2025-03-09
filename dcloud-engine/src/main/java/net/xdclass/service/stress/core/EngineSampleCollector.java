@@ -20,26 +20,35 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 小滴课堂,愿景：让技术不再难学
- *
- * @Description
- * @Author 二当家小D
- * @Remark 有问题直接联系我，源码-笔记-技术交流群
- * @Version 1.0
+ * EngineSampleCollector类继承自ResultCollector，用于收集和处理性能测试中的样本数据
+ * 它通过维护一个计算器映射来管理不同采样点的统计信息，并利用ResultSenderService来发送结果
+ * 同时，它还维护了一个报告对象和一个压力测试用例对象，以便在收集样本时更新和引用它们的信息
  **/
 @Slf4j
 public class EngineSampleCollector extends ResultCollector {
 
+    // 存储各个采样点统计计算器的映射，便于快速访问和管理
     private Map<String, SamplingStatCalculator> calculatorMap = new HashMap<>();
+    // 用于发送结果的服务，使得收集到的数据可以被进一步处理或展示
     private ResultSenderService resultSenderService;
+    // 报告数据传输对象，用于存储和传递报告所需的信息
     private ReportDTO reportDTO;
+    // 压力测试用例数据对象，包含压力测试用例的相关信息和配置
     private StressCaseDO stressCaseDO;
 
-
+    // 默认构造函数
     public EngineSampleCollector() {
         super();
     }
 
+    /**
+     * 构造函数，初始化EngineSampleCollector对象
+     *
+     * @param stressCaseDO 压力测试用例数据对象，包含测试用例的详细信息
+     * @param summariser 总结器对象，用于性能测试结果的汇总
+     * @param resultSenderService 结果发送服务，用于发送收集到的数据
+     * @param reportDTO 报告数据传输对象，用于存储报告所需的数据
+     */
     public EngineSampleCollector(StressCaseDO stressCaseDO, Summariser summariser, ResultSenderService resultSenderService, ReportDTO reportDTO) {
         super(summariser);
         this.stressCaseDO = stressCaseDO;
@@ -48,6 +57,10 @@ public class EngineSampleCollector extends ResultCollector {
     }
 
 
+    /**
+     * 自定义结果收集器
+     * @param event
+     */
     @Override
     public void sampleOccurred(SampleEvent event) {
         super.sampleOccurred(event);
