@@ -6,14 +6,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 小滴课堂-二当家小D,
- * @since 2024-03-02
- */
+
 @Getter
 @Setter
 public class UiCaseStepUpdateReq implements Serializable {

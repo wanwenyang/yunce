@@ -10,7 +10,9 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * 实现结果发送服务，使用Kafka作为消息队列
+ * 该服务负责将处理结果发送到Kafka主题，以便其他系统可以消费这些消息
+ * 选择Kafka作为消息队列是因为它具有高吞吐量、实时性和可扩展性的特点，适合用于大规模数据传输
  **/
 @Service
 @Slf4j

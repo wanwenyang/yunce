@@ -24,18 +24,22 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
+ * 报告服务实现类，负责处理与报告相关的业务逻辑
+ * 该类实现了ReportService接口，提供具体的服务实现
  **/
 @Service
 @Slf4j
 public class ReportServiceImpl implements ReportService {
 
+    // 注入报告映射器，用于访问报告相关的数据库操作
     @Resource
     private ReportMapper reportMapper;
 
+    // 注入报告详情压力测试映射器，用于访问压力测试详情相关的数据库操作
     @Resource
     private ReportDetailStressMapper reportDetailStressMapper;
 
+    // 注入Kafka模板，用于向Kafka消息队列发送消息
     @Resource
     private KafkaTemplate<String,String> kafkaTemplate;
 

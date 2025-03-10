@@ -26,10 +26,11 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
- **/
+ * 组装测试计划 调用远程jmx文件
+ */
 @Slf4j
 public class StressJmxEngine extends BaseStressEngine{
+
 
     public StressJmxEngine(StressCaseDO stressCaseDO, ReportDTO reportDTO, ApplicationContext applicationContext) {
 
@@ -38,6 +39,9 @@ public class StressJmxEngine extends BaseStressEngine{
         this.applicationContext = applicationContext;
     }
 
+    /**
+     * 组装测试计划 调用远程jmx文件
+     */
     @Override
     public void assembleTestPlan() {
 

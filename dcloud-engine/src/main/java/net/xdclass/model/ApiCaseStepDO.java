@@ -10,14 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 小滴课堂-二当家小D,
- * @since 2024-01-20
- */
+
 @Getter
 @Setter
 @TableName("api_case_step")

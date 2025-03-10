@@ -31,11 +31,14 @@ import java.util.Collection;
 import java.util.Objects;
 
 /**
- *
- **/
+ * BaseStressEngine是所有压力测试引擎的抽象基类。
+ * 它提供了压力测试引擎的一些基本功能和属性。
+ * 模板方法
+ */
 @Data
 @Slf4j
 public abstract class BaseStressEngine {
+
 
     /**
      * 最终的测试计划
@@ -174,11 +177,17 @@ public abstract class BaseStressEngine {
     public void hashTree2Jmx() {
         try {
 
+            // 初始化JMeter属性，用于 StressTestUtil 类的相关操作
             StressTestUtil.initJmeterProperties();
+            // 加载保存服务所需的属性，为后续操作做准备
             SaveService.loadProperties();
+            // 构造静态文件目录路径，确保资源文件有统一存放位置
             String dir = System.getProperty("user.dir") + File.separator+"static"+File.separator;
+            // 创建静态文件目录，如果目录不存在
             CustomFileUtil.mkdir(dir);
+            // 生成本地JMX文件路径，使用UUID确保文件名唯一，避免覆盖
             String localJmxPath =  dir + IdUtil.simpleUUID()+".jmx";
+            // 将测试计划哈希树保存到本地JMX文件中，实现测试计划的持久化
             SaveService.saveTree(testPlanHashTree, new FileOutputStream(localJmxPath));
         }catch (Exception e){
             e.printStackTrace();

@@ -15,11 +15,15 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * 监听消息队列的类
+ * 本类的作用是监听特定消息队列中的消息，并对收到的消息进行处理
+ * 使用Spring的@Component注解，使其成为Spring容器中的一个Bean
+ * 使用@Slf4j生成日志对象，便于记录日志信息
  **/
 @Component
 @Slf4j
 public class MQListener {
+
 
     @Resource
     private ReportDetailService reportDetailService;

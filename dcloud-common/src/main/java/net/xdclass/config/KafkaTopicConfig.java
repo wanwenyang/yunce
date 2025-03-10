@@ -1,9 +1,11 @@
 package net.xdclass.config;
 
 /**
- *
+ * KafkaTopicConfig类用于配置Kafka主题的相关参数
+ * 它提供了访问Kafka主题配置的属性和方法，以便在应用程序中更容易地管理和使用这些配置
  **/
 public class KafkaTopicConfig {
+
 
     /**
      * 压测

@@ -9,9 +9,11 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- *
+ * CustomFileUtil类提供了一系列自定义的文件操作工具方法
+ * 它可以帮助进行文件读写、文件信息获取以及文件处理等操作
  **/
 public class CustomFileUtil {
+
     /**
      * 文件名生成
      * @param filename 文件名

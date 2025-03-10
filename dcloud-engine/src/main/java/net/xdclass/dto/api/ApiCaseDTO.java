@@ -7,14 +7,7 @@ import net.xdclass.dto.ApiCaseStepDTO;
 import java.util.Date;
 import java.util.List;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 小滴课堂-二当家小D,
- * @since 2024-01-20
- */
+
 @Getter
 @Setter
 public class ApiCaseDTO {

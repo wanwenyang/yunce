@@ -3,14 +3,7 @@ package net.xdclass.req.ui;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 小滴课堂-二当家小D,
- * @since 2024-03-02
- */
+
 @Getter
 @Setter
 public class UiCaseUpdateReq  {

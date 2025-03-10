@@ -21,20 +21,26 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- *
+ * 报告详情服务实现类
+ * 该类实现了ReportDetailService接口，提供了报告详情相关的服务
+ * 主要包括从数据库中获取压力测试报告详情、API测试报告详情等功能
  **/
 @Service
 @Slf4j
 public class ReportDetailServiceImpl implements ReportDetailService {
 
+    // 压力测试报告详情映射器，用于操作压力测试报告详情相关的数据库操作
     @Resource
     private ReportDetailStressMapper reportDetailStressMapper;
 
+    // API测试报告详情映射器，用于操作API测试报告详情相关的数据库操作
     @Resource
     private ReportDetailApiMapper reportDetailApiMapper;
 
+    // 报告映射器，用于操作报告相关的数据库操作
     @Resource
     private ReportMapper reportMapper;
+
 
     @Override
     public void handleStressReportDetail(String topicContent) {
