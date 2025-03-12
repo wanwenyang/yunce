@@ -7,6 +7,7 @@ import net.xdclass.req.api.ApiCaseStepUpdateReq;
 import net.xdclass.service.api.ApiCaseStepService;
 import net.xdclass.util.JsonData;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class ApiCaseStepController {
      * 保存接口
      */
     @PostMapping("/save")
-    public JsonData save(ApiCaseStepSaveReq req) {
+    public JsonData save(@RequestBody ApiCaseStepSaveReq req) {
         return JsonData.buildSuccess(apiCaseStepService.save(req));
     }
 
@@ -32,7 +33,7 @@ public class ApiCaseStepController {
      * 修改接口
      */
     @PostMapping("/update")
-    public JsonData update(ApiCaseStepUpdateReq req) {
+    public JsonData update(@RequestBody ApiCaseStepUpdateReq req) {
         return JsonData.buildSuccess(apiCaseStepService.update(req));
     }
 
@@ -41,7 +42,7 @@ public class ApiCaseStepController {
      * 删除接口
      */
     @PostMapping("/delete")
-    public JsonData delete(ApiCaseStepDelReq req) {
+    public JsonData delete(@RequestBody ApiCaseStepDelReq req) {
         return JsonData.buildSuccess(apiCaseStepService.del(req.getProjectId(), req.getId()));
     }
 

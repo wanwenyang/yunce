@@ -31,7 +31,7 @@ public class ApiController {
      * 保存接口
      */
     @PostMapping("/save")
-    public JsonData save(ApiSaveReq req) {
+    public JsonData save(@RequestBody ApiSaveReq req) {
         return JsonData.buildSuccess(apiService.save(req));
     }
 
@@ -39,7 +39,7 @@ public class ApiController {
      * 修改接口
      */
     @PostMapping("/update")
-    public JsonData update(ApiUpdateReq req) {
+    public JsonData update(@RequestBody ApiUpdateReq req) {
         return JsonData.buildSuccess(apiService.update(req));
     }
 
@@ -47,7 +47,7 @@ public class ApiController {
      * 删除接口
      */
     @PostMapping("/delete")
-    public JsonData delete(ApiDelReq req) {
+    public JsonData delete(@RequestBody ApiDelReq req) {
         return JsonData.buildSuccess(apiService.delete(req));
     }
 }

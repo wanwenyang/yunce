@@ -1,0 +1,33 @@
+package net.xdclass.controller;
+
+import jakarta.annotation.Resource;
+import net.xdclass.dto.PermissionDTO;
+import net.xdclass.service.PermissionService;
+import net.xdclass.util.JsonData;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ *
+ **/
+@RestController
+public class PermissionController {
+
+    @Resource
+    private PermissionService permissionService;
+
+
+    /**
+     * 获取全部权限
+     */
+    @GetMapping("/api/permit/v1/permission/list")
+    public JsonData getAllPermission() {
+        List<PermissionDTO> list = permissionService.list();
+        return JsonData.buildSuccess(list);
+    }
+
+
+
+}

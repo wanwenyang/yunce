@@ -41,7 +41,7 @@ public class MyBatisPlusGenerator {
         // 数据源配置
         FastAutoGenerator.create("jdbc:mysql://"+serverInfo+"/"+dbName+"?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=true", userName, password)
                 .globalConfig(builder -> {
-                    builder.author("小滴课堂-二当家小D,")        // 设置作者
+                    builder.author(" joker,")        // 设置作者
                             .commentDate("yyyy-MM-dd")
                             .enableSpringdoc()
                             .disableOpenDir() //禁止打开输出目录

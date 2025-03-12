@@ -65,7 +65,7 @@ public class TestMain {
         //隐式等待,可以用一个不存在的元素位置进行测试
         //webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         //输入元素 sendKey
-        webDriver.findElement(By.id("kw")).sendKeys("小滴课堂官网");
+        webDriver.findElement(By.id("kw")).sendKeys("joker测试1");
 
         //提交元素  submit
         webDriver.findElement(By.id("su")).submit();
@@ -79,8 +79,8 @@ public class TestMain {
         //打开网页
         // 打开百度首页
         webDriver.get("https://www.baidu.com");
-        // 在搜索框中输入“小滴课堂官网”
-        webDriver.findElement(By.cssSelector("#kw")).sendKeys("小滴课堂官网");
+        // 在搜索框中输入“joker测试1”
+        webDriver.findElement(By.cssSelector("#kw")).sendKeys("joker测试1");
         // 点击搜索按钮
         webDriver.findElement(By.cssSelector("#su")).click();
         // 等待2秒
@@ -112,7 +112,7 @@ public class TestMain {
         //切换到新窗口，没调用默认还是第一个窗口，则定位新闻窗口的输入框元素会失败
         webDriver.switchTo().window(newHandle);
         //定位新闻窗口的输入框
-        webDriver.findElement(By.id("ww")).sendKeys("小滴课堂");
+        webDriver.findElement(By.id("ww")).sendKeys("joker测试1");
         System.out.println("newHandle===="+webDriver.getWindowHandle());
 
     }
@@ -121,8 +121,8 @@ public class TestMain {
     public static void mouseTest(WebDriver webDriver)throws InterruptedException {
         //打开网页
         webDriver.get("https://www.baidu.com");
-        //输入小滴课堂官网
-        webDriver.findElement(By.cssSelector("#kw")).sendKeys("小滴课堂官网");
+        //输入joker测试1
+        webDriver.findElement(By.cssSelector("#kw")).sendKeys("joker测试1");
         //点击百度一下的按钮
         webDriver.findElement(By.cssSelector("#su")).click();
         TimeUnit.SECONDS.sleep(2);
@@ -138,8 +138,8 @@ public class TestMain {
     public static void browserTest(WebDriver webDriver)throws InterruptedException {
         //打开网页
         webDriver.get("https://www.baidu.com");
-        //输入小滴课堂官网
-        webDriver.findElement(By.cssSelector("#kw")).sendKeys("小滴课堂官网");
+        //输入joker测试1
+        webDriver.findElement(By.cssSelector("#kw")).sendKeys("joker测试1");
         //点击搜索
         webDriver.findElement(By.cssSelector("#su")).click();
         //浏览器刷新
@@ -172,7 +172,7 @@ public class TestMain {
         TimeUnit.SECONDS.sleep(2);
 
         //输入元素 sendKey
-        webDriver.findElement(By.id("kw")).sendKeys("小滴课堂官网");
+        webDriver.findElement(By.id("kw")).sendKeys("joker测试1");
         TimeUnit.SECONDS.sleep(2);
 
         //清除元素  clear
@@ -258,14 +258,14 @@ public class TestMain {
         webDriver.get("https://baidu.com");
         TimeUnit.SECONDS.sleep(2);
         WebElement webElement = webDriver.findElement(By.name("wd"));
-        webElement.sendKeys("小滴课堂官网");
+        webElement.sendKeys("joker测试1");
     }
 
     public static void idTest(WebDriver webDriver) throws InterruptedException {
         webDriver.get("https://xdclass.net");
         TimeUnit.SECONDS.sleep(2);
         WebElement webElement = webDriver.findElement(By.id("rc_select_0"));
-        webElement.sendKeys("架构大课");
+        webElement.sendKeys("joker测试2");
     }
 
 

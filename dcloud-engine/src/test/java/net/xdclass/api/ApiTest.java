@@ -76,7 +76,7 @@ public class ApiTest {
     @Test
     public void testPostJsonHeader(){
         Map<String,String> map = new HashMap<>();
-        map.put("title","小滴课堂云测大课");
+        map.put("title"," joker自测");
         RestAssured.given()
                 .header("token","3a74fbbeb3114b38bc0f5b61296e8835")
                 //.header("Content-Type","application/json")
@@ -111,7 +111,7 @@ public class ApiTest {
     @Test
     public void testAssert(){
         Map<String,String> map = new HashMap<>();
-        map.put("title","小滴课堂云测大课");
+        map.put("title"," joker自测");
         RestAssured.given()
                 .header("token","3a74fbbeb3114b38bc0f5b61296e8835")
                 //.header("Content-Type","application/json")
@@ -131,7 +131,7 @@ public class ApiTest {
     @Test
     public void testResponse(){
         Map<String,String> map = new HashMap<>();
-        map.put("title","小滴课堂云测大课");
+        map.put("title"," joker自测");
         Response response = RestAssured.given()
                 .header("token", "3a74fbbeb3114b38bc0f5b61296e8835")
                 //.header("Content-Type","application/json")
@@ -156,7 +156,7 @@ public class ApiTest {
     @Test
     public void testJsonPath(){
         Map<String,String> map = new HashMap<>();
-        map.put("title","小滴课堂云测大课");
+        map.put("title"," joker自测");
         Response response = RestAssured.given()
                 .header("token", "55d0467289b14f04a9cd9fd086f9011b")
                 //.header("Content-Type","application/json")

@@ -35,7 +35,7 @@ public class ApiModuleController {
      * 根据projectId和moduleId删除用例模块
      */
     @PostMapping("/delete")
-    public JsonData delete(ApiModuleDelReq req) {
+    public JsonData delete(@RequestBody ApiModuleDelReq req) {
         return JsonData.buildSuccess(apiModuleService.delete(req.getId(),req.getProjectId()));
     }
 
@@ -44,7 +44,7 @@ public class ApiModuleController {
      * 保存
      */
     @PostMapping("/save")
-    public JsonData save(ApiModuleSaveReq req) {
+    public JsonData save(@RequestBody ApiModuleSaveReq req) {
         return JsonData.buildSuccess(apiModuleService.save(req));
     }
 
@@ -53,7 +53,7 @@ public class ApiModuleController {
      * 更新
      */
     @PostMapping("/update")
-    public JsonData update(ApiModuleUpdateReq req) {
+    public JsonData update(@RequestBody ApiModuleUpdateReq req) {
         return JsonData.buildSuccess(apiModuleService.update(req));
     }
 

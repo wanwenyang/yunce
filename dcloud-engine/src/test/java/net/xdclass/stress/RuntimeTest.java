@@ -55,15 +55,15 @@ public class RuntimeTest {
 
         String day = switch (week){
             case 1 -> {
-                System.out.println("星期日，小滴课堂老王和湧哥今天去会所按摩");
+                System.out.println("星期日，今天去会所按摩");
                 yield "星期日";
             }
             case 2,3,4,5,6 -> {
-                System.out.println("工作日，冰冰和Anna白天再摸鱼");
+                System.out.println("工作日，我白天再摸鱼");
                 yield "2-6工作日";
             }
             case 7 -> {
-                System.out.println("星期六，小滴课堂湧哥独自录制算法大课熬夜中");
+                System.out.println("星期六，去北山骑车");
                 yield "星期六";
             }
             default -> {

@@ -38,7 +38,7 @@ public class ApiCaseModuleController {
      * save保存
      */
     @PostMapping("/save")
-    public JsonData save(ApiCaseModuleSaveReq req) {
+    public JsonData save(@RequestBody ApiCaseModuleSaveReq req) {
         return JsonData.buildSuccess(apiCaseModuleService.save(req));
     }
 
@@ -46,7 +46,7 @@ public class ApiCaseModuleController {
      * update修改
      */
     @PostMapping("/update")
-    public JsonData update(ApiCaseModuleUpdateReq req) {
+    public JsonData update(@RequestBody ApiCaseModuleUpdateReq req) {
         return JsonData.buildSuccess(apiCaseModuleService.update(req));
     }
 
@@ -55,7 +55,7 @@ public class ApiCaseModuleController {
      * 删除
      */
     @PostMapping("/delete")
-    public JsonData delete(ApiCaseModuleDelReq req) {
+    public JsonData delete(@RequestBody ApiCaseModuleDelReq req) {
         return JsonData.buildSuccess(apiCaseModuleService.del(req));
     }
 

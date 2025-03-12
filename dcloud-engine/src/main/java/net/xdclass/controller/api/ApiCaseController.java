@@ -30,7 +30,7 @@ public class ApiCaseController {
      * 保存
      */
     @PostMapping("/save")
-    public JsonData save(ApiCaseSaveReq req) {
+    public JsonData save(@RequestBody ApiCaseSaveReq req) {
         return JsonData.buildSuccess(apiCaseService.save(req));
     }
 
@@ -38,7 +38,7 @@ public class ApiCaseController {
      * 修改
      */
     @PostMapping("/update")
-    public JsonData update(ApiCaseUpdateReq req) {
+    public JsonData update(@RequestBody ApiCaseUpdateReq req) {
         return JsonData.buildSuccess(apiCaseService.update(req));
     }
 
@@ -46,12 +46,12 @@ public class ApiCaseController {
      * 删除
      */
     @PostMapping("/delete")
-    public JsonData delete(ApiCaseDelReq req) {
+    public JsonData delete(@RequestBody ApiCaseDelReq req) {
         return JsonData.buildSuccess(apiCaseService.del(req.getProjectId(), req.getId()));
     }
 
 
-    @GetMapping("execute")
+    @GetMapping("/execute")
     public JsonData execute(@RequestParam("projectId") Long projectId, @RequestParam("id") Long caseId){
         return apiCaseService.execute(projectId,caseId);
     }
