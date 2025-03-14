@@ -63,8 +63,10 @@ public class StressCaseModuleServiceImpl implements StressCaseModuleService {
         LambdaQueryWrapper<StressCaseDO> caseQueryWrapper = new LambdaQueryWrapper<>();
         caseQueryWrapper.eq(StressCaseDO::getModuleId, moduleId).orderByDesc(StressCaseDO::getId);
         List<StressCaseDO> stressCaseDOS = stressCaseMapper.selectList(caseQueryWrapper);
-        List<StressCaseDTO> stressCaseDTOS = SpringBeanUtil.copyProperties(stressCaseDOS, StressCaseDTO.class);
-        stressCaseModuleDTO.setList(stressCaseDTOS);
+        if (stressCaseDOS != null || stressCaseDOS.size() != 0){
+            List<StressCaseDTO> stressCaseDTOS = SpringBeanUtil.copyProperties(stressCaseDOS, StressCaseDTO.class);
+            stressCaseModuleDTO.setList(stressCaseDTOS);
+        }
         return stressCaseModuleDTO;
     }
 

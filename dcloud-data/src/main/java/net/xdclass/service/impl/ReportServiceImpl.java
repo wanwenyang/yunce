@@ -1,15 +1,25 @@
 package net.xdclass.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import net.xdclass.config.KafkaTopicConfig;
+import net.xdclass.controller.req.ReportDelReq;
+import net.xdclass.controller.req.ReportExportReq;
+import net.xdclass.controller.req.ReportPageReq;
 import net.xdclass.dto.ReportDTO;
+import net.xdclass.dto.ReportExcelDTO;
 import net.xdclass.enums.ReportStateEnum;
+import net.xdclass.enums.TestTypeEnum;
+import net.xdclass.mapper.ReportDetailApiMapper;
 import net.xdclass.mapper.ReportDetailStressMapper;
+import net.xdclass.mapper.ReportDetailUiMapper;
 import net.xdclass.mapper.ReportMapper;
 import net.xdclass.model.ReportDO;
+import net.xdclass.model.ReportDetailApiDO;
 import net.xdclass.model.ReportDetailStressDO;
+import net.xdclass.model.ReportDetailUiDO;
 import net.xdclass.req.ReportSaveReq;
 import net.xdclass.req.ReportUpdateReq;
 import net.xdclass.service.ReportService;
@@ -20,26 +30,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-/**
- * 报告服务实现类，负责处理与报告相关的业务逻辑
- * 该类实现了ReportService接口，提供具体的服务实现
- **/
+
 @Service
 @Slf4j
 public class ReportServiceImpl implements ReportService {
 
-    // 注入报告映射器，用于访问报告相关的数据库操作
     @Resource
     private ReportMapper reportMapper;
 
-    // 注入报告详情压力测试映射器，用于访问压力测试详情相关的数据库操作
     @Resource
     private ReportDetailStressMapper reportDetailStressMapper;
 
-    // 注入Kafka模板，用于向Kafka消息队列发送消息
+    @Resource
+    private ReportDetailUiMapper reportDetailUiMapper;
+
+    @Resource
+    private ReportDetailApiMapper reportDetailApiMapper;
+
     @Resource
     private KafkaTemplate<String,String> kafkaTemplate;
 
@@ -102,5 +113,97 @@ public class ReportServiceImpl implements ReportService {
 
         //更新测试报告
         reportMapper.updateById(reportDO);
+    }
+
+    @Override
+    public List<ReportExcelDTO> exportReport(ReportExportReq req) {
+        LambdaQueryWrapper<ReportDO> queryWrapper = new LambdaQueryWrapper<>(ReportDO.class);
+        //构建查询条件
+        if (req.getProjectId() != null){
+            queryWrapper.eq(ReportDO::getProjectId,req.getProjectId());
+        }
+        if (req.getCaseId() != null){
+            queryWrapper.eq(ReportDO::getCaseId,req.getCaseId());
+        }
+        if (req.getType() != null){
+            queryWrapper.eq(ReportDO::getType,req.getType());
+        }
+        if (req.getName() != null){
+            queryWrapper.like(ReportDO::getName,req.getName());
+        }
+        if (req.getStartTime() != null){
+            queryWrapper.ge(ReportDO::getStartTime,req.getStartTime());
+        }
+        if (req.getEndTime() != null){
+            queryWrapper.le(ReportDO::getEndTime,req.getEndTime());
+        }
+        queryWrapper.orderByDesc(ReportDO::getId);
+        List<ReportDO> reportDOS = reportMapper.selectList(queryWrapper);
+        List<ReportExcelDTO> reportExcelDTOS = SpringBeanUtil.copyProperties(reportDOS, ReportExcelDTO.class);
+        return reportExcelDTOS;
+    }
+
+    @Override
+    public Map<String, Object> page(ReportPageReq req) {
+
+        LambdaQueryWrapper<ReportDO> queryWrapper = new LambdaQueryWrapper<>(ReportDO.class);
+        //构建查询条件
+        if (req.getProjectId() != null){
+            queryWrapper.eq(ReportDO::getProjectId,req.getProjectId());
+        }
+        if (req.getCaseId() != null){
+            queryWrapper.eq(ReportDO::getCaseId,req.getCaseId());
+        }
+        if (req.getType() != null){
+            queryWrapper.eq(ReportDO::getType,req.getType());
+        }
+        if (req.getName() != null){
+            queryWrapper.like(ReportDO::getName,req.getName());
+        }
+        if (req.getStartTime() != null){
+            queryWrapper.ge(ReportDO::getStartTime,req.getStartTime());
+        }
+        if (req.getEndTime() != null){
+            queryWrapper.le(ReportDO::getEndTime,req.getEndTime());
+        }
+        queryWrapper.orderByDesc(ReportDO::getId);
+        Page<ReportDO> page = new Page<>(req.getPage(),req.getSize());
+        Page<ReportDO> reportDOPage = reportMapper.selectPage(page, queryWrapper);
+        //获取测试报告列表
+        List<ReportDO> reportDOS = reportDOPage.getRecords();
+        List<ReportDTO> reportDTOList = SpringBeanUtil.copyProperties(reportDOS, ReportDTO.class);
+        Map<String,Object> pageMap = new HashMap<>(3);
+        pageMap.put("total_record",reportDOPage.getTotal());
+        pageMap.put("total_page",reportDOPage.getPages());
+        pageMap.put("current_data",reportDTOList);
+
+        return pageMap;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int delete(ReportDelReq req) {
+
+        TestTypeEnum testTypeEnum = TestTypeEnum.valueOf(req.getType());
+        LambdaQueryWrapper<ReportDO> queryWrapper = new LambdaQueryWrapper<>(ReportDO.class);
+        queryWrapper.eq(ReportDO::getProjectId,req.getProjectId());
+        queryWrapper.eq(ReportDO::getId,req.getId());
+        int delete = reportMapper.delete(queryWrapper);
+        //根据不同的类型删除明细表
+        switch (testTypeEnum){
+            case STRESS:
+                reportDetailStressMapper.delete(new LambdaQueryWrapper<ReportDetailStressDO>().eq(ReportDetailStressDO::getReportId,req.getId()));
+                break;
+            case API:
+                reportDetailApiMapper.delete(new LambdaQueryWrapper<ReportDetailApiDO>().eq(ReportDetailApiDO::getReportId,req.getId()));
+                break;
+            case UI:
+                reportDetailUiMapper.delete(new LambdaQueryWrapper<ReportDetailUiDO>().eq(ReportDetailUiDO::getReportId,req.getId()));
+                break;
+            default:
+                log.error("不支持的类型");
+                break;
+        }
+        return delete;
     }
 }

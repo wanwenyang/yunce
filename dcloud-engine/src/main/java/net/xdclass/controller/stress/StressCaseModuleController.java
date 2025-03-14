@@ -25,7 +25,7 @@ public class StressCaseModuleController {
      * @param projectId 项目ID
      * @return 压力测试用例列表的Json响应
      */
-    @GetMapping("list")
+    @GetMapping("/list")
     public JsonData list(@RequestParam("projectId")Long projectId){
         return JsonData.buildSuccess(stressCaseModuleService.list(projectId));
     }
@@ -37,8 +37,8 @@ public class StressCaseModuleController {
      * @param moduleId 模块ID
      * @return 压力测试用例的Json响应
      */
-    @GetMapping("find")
-    public JsonData findById(@RequestParam("projectId") Long projectId, @RequestParam("id") Long moduleId){
+    @GetMapping("/find")
+    public JsonData findById(@RequestParam("projectId") Long projectId, @RequestParam("moduleId") Long moduleId){
         return JsonData.buildSuccess(stressCaseModuleService.findById(projectId,moduleId));
     }
 

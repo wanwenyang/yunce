@@ -59,12 +59,18 @@ public class ApiCaseModuleServiceImpl implements ApiCaseModuleService {
         LambdaQueryWrapper<ApiCaseModuleDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ApiCaseModuleDO::getProjectId, projectId).eq(ApiCaseModuleDO::getId, moduleId);
         ApiCaseModuleDO apiCaseModuleDO = apiCaseModuleMapper.selectOne(queryWrapper);
+        if (null == apiCaseModuleDO){
+            return new ApiCaseModuleDTO();
+        }
         ApiCaseModuleDTO apiCaseModuleDTO = SpringBeanUtil.copyProperties(apiCaseModuleDO, ApiCaseModuleDTO.class);
 
         //查询模块下的用例列表
         LambdaQueryWrapper<ApiCaseDO> apiCaseQueryWrapper = new LambdaQueryWrapper<>();
         apiCaseQueryWrapper.eq(ApiCaseDO::getModuleId, apiCaseModuleDTO.getId());
         List<ApiCaseDO> apiCaseDOS = apiCaseMapper.selectList(apiCaseQueryWrapper);
+        if (null == apiCaseDOS || apiCaseDOS.size()==0){
+            return apiCaseModuleDTO;
+        }
         List<ApiCaseDTO> apiCaseDTOS = SpringBeanUtil.copyProperties(apiCaseDOS, ApiCaseDTO.class);
         apiCaseModuleDTO.setList(apiCaseDTOS);
         return apiCaseModuleDTO;

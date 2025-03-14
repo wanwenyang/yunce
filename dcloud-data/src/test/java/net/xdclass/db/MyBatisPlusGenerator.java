@@ -20,7 +20,7 @@ public class MyBatisPlusGenerator {
     public static void main(String[] args) {
 
         String userName = "root";
-        String password = "xdclass.net168";
+        String password = "123456";
         String serverInfo = "120.79.56.211:3306";
         String targetModuleNamePath = "/dcloud-data";
         String dbName = "test_data";

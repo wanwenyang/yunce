@@ -26,7 +26,7 @@ public class StressCaseController {
      * @param caseId 用例ID
      * @return 返回包含压力测试用例数据的JsonData对象
      */
-    @RequestMapping("find")
+    @RequestMapping("/find")
     public JsonData findById(@RequestParam("projectId") Long projectId, @RequestParam("id") Long caseId) {
         return JsonData.buildSuccess(stressCaseService.findById(projectId, caseId));
     }
@@ -37,7 +37,7 @@ public class StressCaseController {
      * @param req 包含项目ID和用例ID的删除请求对象
      * @return 返回表示删除成功的JsonData对象
      */
-    @PostMapping("del")
+    @PostMapping("/del")
     public JsonData delete(@RequestBody StressCaseDelReq req) {
         return JsonData.buildSuccess(stressCaseService.delete(req.getProjectId(), req.getId()));
     }
@@ -48,7 +48,7 @@ public class StressCaseController {
      * @param req 包含用例信息的保存请求对象
      * @return 返回表示保存成功的JsonData对象
      */
-    @PostMapping("save")
+    @PostMapping("/save")
     public JsonData save(@RequestBody StressCaseSaveReq req) {
         return JsonData.buildSuccess(stressCaseService.save(req));
     }
@@ -59,7 +59,7 @@ public class StressCaseController {
      * @param req 包含用例信息的更新请求对象
      * @return 返回表示更新成功的JsonData对象
      */
-    @PostMapping("update")
+    @PostMapping("/update")
     public JsonData update(@RequestBody StressCaseUpdateReq req) {
         return JsonData.buildSuccess(stressCaseService.update(req));
     }

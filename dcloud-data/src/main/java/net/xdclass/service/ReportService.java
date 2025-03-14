@@ -1,14 +1,16 @@
 package net.xdclass.service;
 
+import net.xdclass.controller.req.ReportDelReq;
+import net.xdclass.controller.req.ReportExportReq;
+import net.xdclass.controller.req.ReportPageReq;
 import net.xdclass.dto.ReportDTO;
+import net.xdclass.dto.ReportExcelDTO;
 import net.xdclass.req.ReportSaveReq;
 import net.xdclass.req.ReportUpdateReq;
 
-/**
- * 定义报告服务接口，用于生成各种类型的报告
- * 此接口不包含具体的方法定义，仅作为报告服务的一个标记或承诺
- * 实现此接口的类将负责提供报告生成的具体实现
- */
+import java.util.List;
+import java.util.Map;
+
 public interface ReportService {
     /**
      * 保存测试报告
@@ -22,4 +24,25 @@ public interface ReportService {
      * @param req
      */
     void updateReportState(ReportUpdateReq req);
+
+    /**
+     * 导出报告
+     * @param req
+     * @return
+     */
+    List<ReportExcelDTO> exportReport(ReportExportReq req);
+
+    /**
+     * 分页查询
+     * @param req
+     * @return
+     */
+    Map<String, Object> page(ReportPageReq req);
+
+    /**
+     * 删除报告
+     * @param req
+     * @return
+     */
+    int delete(ReportDelReq req);
 }

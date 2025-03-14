@@ -72,18 +72,14 @@ public class ApiModuleServiceImpl implements ApiModuleService {
         queryWrapper.eq(ApiModuleDO::getProjectId, projectId).eq(ApiModuleDO::getId, moduleId);
 
         ApiModuleDO apiModuleDO = apiModuleMapper.selectOne(queryWrapper);
-
+        if (null == apiModuleDO){
+            return new ApiModuleDTO();
+        }
         ApiModuleDTO apiModuleDTO = SpringBeanUtil.copyProperties(apiModuleDO, ApiModuleDTO.class);
-
-        //查询模块下面对关联接口
-        if (apiModuleDTO != null) {
-
-            LambdaQueryWrapper<ApiDO> apiQueryWrapper = new LambdaQueryWrapper<>();
-
-            apiQueryWrapper.eq(ApiDO::getModuleId, apiModuleDTO.getId()).orderByDesc(ApiDO::getId);
-
-            List<ApiDO> apiDOS = apiMapper.selectList(apiQueryWrapper);
-
+        LambdaQueryWrapper<ApiDO> apiQueryWrapper = new LambdaQueryWrapper<>();
+        apiQueryWrapper.eq(ApiDO::getModuleId, apiModuleDTO.getId()).orderByDesc(ApiDO::getId);
+        List<ApiDO> apiDOS = apiMapper.selectList(apiQueryWrapper);
+        if (apiDOS != null && apiDOS.size() > 0) {
             apiModuleDTO.setList(SpringBeanUtil.copyProperties(apiDOS, ApiDTO.class));
         }
         return apiModuleDTO;

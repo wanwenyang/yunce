@@ -28,7 +28,7 @@ public class SysDictController {
      * @param category
      * @return
      */
-    @GetMapping("list")
+    @GetMapping("/list")
     public JsonData listByCategory(@RequestParam String [] category){
 
         Map<String, List<SysDictDTO>> stringListMap =  sysDictService.listByCategory(category);

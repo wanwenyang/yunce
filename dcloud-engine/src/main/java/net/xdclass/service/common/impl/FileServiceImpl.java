@@ -52,7 +52,6 @@ public class FileServiceImpl implements FileService {
         new Thread(() -> {
             upload(file, filename);
         }).start();
-
         String url = minIoConfig.getEndpoint() + "/" + minIoConfig.getBucketName() + "/" + filename;
 
         return url;

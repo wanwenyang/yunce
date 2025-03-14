@@ -28,7 +28,7 @@ public class AccountController {
     /**
      * 分页查看账号列表
      */
-    @PostMapping("page")
+    @PostMapping("/page")
     public JsonData page(@RequestBody AccountPageReq req) {
         Map<String, Object> pageInfo = accountService.page(req);
         return JsonData.buildSuccess(pageInfo);
@@ -38,7 +38,7 @@ public class AccountController {
     /**
      * 根据id删除
      */
-    @PostMapping("del")
+    @PostMapping("/del")
     public JsonData delete(@RequestBody AccountDelReq req) {
         int rows = accountService.del(req);
         return JsonData.buildSuccess(rows);
@@ -51,7 +51,7 @@ public class AccountController {
      * @param req
      * @return
      */
-    @PostMapping("update")
+    @PostMapping("/update")
     public JsonData updateAccountStatus(@RequestBody AccountUpdateReq req) {
 
         int rows = accountService.updateAccountStatus(req);
@@ -62,7 +62,7 @@ public class AccountController {
     /**
      * 注册接口
      */
-    @PostMapping("register")
+    @PostMapping("/register")
     public JsonData register(@RequestBody AccountRegisterReq req) {
         int rows = accountService.register(req);
         return JsonData.buildSuccess(rows);
@@ -74,7 +74,7 @@ public class AccountController {
      * JWT
      * @return
      */
-    @PostMapping("login")
+    @PostMapping("/login")
     public JsonData login(@RequestBody AccountLoginReq req) {
 
         AccountDTO accountDTO = accountService.login(req);
@@ -92,7 +92,7 @@ public class AccountController {
     /**
      * 退出登录接口
      */
-    @GetMapping("logout")
+    @GetMapping("/logout")
     public JsonData logout() {
         StpUtil.logout();
         return JsonData.buildSuccess();
@@ -103,7 +103,7 @@ public class AccountController {
      * 根据登录账号获取角色信息
      * @return
      */
-    @GetMapping("findLoginAccountRole")
+    @GetMapping("/findLoginAccountRole")
     public JsonData findLoginAccountRole(){
         Long accountId = Long.parseLong(StpUtil.getLoginId().toString());
         AccountDTO accountDTO = roleService.getAccountWithRoleByAccountId(accountId);

@@ -32,7 +32,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
-          <stringProp name="HTTPSampler.domain">120.24.7.58</stringProp>
+          <stringProp name="HTTPSampler.domain">192.168.213.100</stringProp>
           <intProp name="HTTPSampler.port">8848</intProp>
           <stringProp name="HTTPSampler.path">/nacos</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
